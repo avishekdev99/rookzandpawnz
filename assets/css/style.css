@@ -97,7 +97,7 @@ padding-top: 3.125rem;
     font-weight: 500;
     color:#333;
 }
-.main-nav ul li a:hover{
+.main-nav ul li a:hover, .main-nav ul li a.active{
     color: #ff6527;
 }
 .contact-btn a {
@@ -286,6 +286,7 @@ background: linear-gradient(180deg, #ff591e 0%, #ffb365 100%);
     background-repeat: no-repeat;
     background-size: cover;
     position: relative;
+    background-attachment: fixed;
     /* background-image: url(../images/bg-shape-1.webp);
     background-position: bottom left;
     background-repeat: no-repeat;
@@ -686,6 +687,7 @@ background: linear-gradient(180deg, #860dff 0%, #45b3fc 100%);
     padding: 15px 25px 22px;
     transition: right 0.3s ease;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    z-index: 2;
   }
   .wrapper.show {
     right: 20px;
@@ -814,3 +816,7 @@ background: linear-gradient(180deg, #860dff 0%, #45b3fc 100%);
     padding: 1.5625rem  7.5rem;
 }
 /* chess main section css end */
+/* aos */
+.chess-wrap, .why-choose, .news-wrap, .accordion-sec, .how-to-play{
+    overflow: hidden;
+}
