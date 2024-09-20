@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chess Game</title>
+ <style>
+    /* Style for the chessboard */
+#chessboard {
+    display: grid;
+    grid-template-columns: repeat(8, 60px);
+    grid-template-rows: repeat(8, 60px);
+    width: 480px;
+    height: 480px;
+    border: 2px solid #333;
+}
+
+/* Styles for the squares */
+.square {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 40px;
+}
+
+.light {
+    background-color: #f0d9b5;
+}
+
+.dark {
+    background-color: #b58863;
+}
+
+/* Styles for chess pieces */
+.piece {
+    cursor: pointer;
+}
+
+ </style>
+</head>
+<body>
+    <div id="chessboard"></div>
+<script>
+// Initial board setup using an array
+const initialBoard = [
+    ["r", "n", "b", "q", "k", "b", "n", "r"],
+    ["p", "p", "p", "p", "p", "p", "p", "p"],
+    ["", "", "", "", "", "", "", ""],
+    ["", "", "", "", "", "", "", ""],
+    ["", "", "", "", "", "", "", ""],
+    ["", "", "", "", "", "", "", ""],
+    ["P", "P", "P", "P", "P", "P", "P", "P"],
+    ["R", "N", "B", "Q", "K", "B", "N", "R"]
+];
+
+// Mapping piece symbols
+const pieceSymbols = {
+    "r": "♜", "n": "♞", "b": "♝", "q": "♛", "k": "♚", "p": "♟",
+    "R": "♖", "N": "♘", "B": "♗", "Q": "♕", "K": "♔", "P": "♙"
+};
+
+// Create the chessboard
+function createChessBoard() {
+    const chessboard = document.getElementById('chessboard');
+    chessboard.innerHTML = ''; // Clear the board
+
+    for (let row = 0; row < 8; row++) {
+        for (let col = 0; col < 8; col++) {
+            const square = document.createElement('div');
+            square.classList.add('square');
+            
+            // Set square color
+            if ((row + col) % 2 === 0) {
+                square.classList.add('light');
+            } else {
+                square.classList.add('dark');
+            }
+
+            // Add piece if it exists in the initial setup
+            const piece = initialBoard[row][col];
+            if (piece) {
+                const pieceElement = document.createElement('span');
+                pieceElement.textContent = pieceSymbols[piece];
+                pieceElement.classList.add('piece');
+                pieceElement.draggable = true; // Enable dragging
+                pieceElement.addEventListener('dragstart', dragStart);
+                pieceElement.addEventListener('dragend', dragEnd);
+                square.appendChild(pieceElement);
+            }
+
+            // Allow dropping on squares
+            square.addEventListener('dragover', dragOver);
+            square.addEventListener('drop', drop);
+
+            // Append square to chessboard
+            chessboard.appendChild(square);
+        }
+    }
+}
+
+// Drag and drop event handlers
+let draggedPiece = null;
+
+function dragStart(event) {
+    draggedPiece = event.target;
+    setTimeout(() => {
+        event.target.style.visibility = 'hidden';
+    }, 0);
+}
+
+function dragEnd(event) {
+    event.target.style.visibility = 'visible';
+    draggedPiece = null;
+}
+
+function dragOver(event) {
+    event.preventDefault(); // Necessary to allow dropping
+}
+
+function drop(event) {
+    if (draggedPiece) {
+        event.target.appendChild(draggedPiece);
+    }
+}
+
+// Initialize the board
+createChessBoard();
+
+</script>
+</body>
+</html>
